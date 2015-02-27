@@ -21,6 +21,7 @@ index 1113cab..646761d 100644
 +        { "gameobject_template",         SEC_ADMINISTRATOR, true,  &ChatHandler::HandleReloadGameobjectTemplateCommand,      "", NULL },
 +        { "item_template",               SEC_ADMINISTRATOR, true,  &ChatHandler::HandleReloadItemTemplateCommand,            "", NULL },
 +        { "creature_template",           SEC_ADMINISTRATOR, true,  &ChatHandler::HandleReloadCreatureTemplateCommand,        "", NULL },
++        { "battleground_template",       SEC_ADMINISTRATOR, true,  &ChatHandler::HandleReloadBattlegroundTemplateCommand,        "", NULL },
 +        // DEV END
  
          { NULL,                          0,                 false, NULL,                                                     "", NULL }
@@ -37,6 +38,7 @@ index a770f14..84dca70 100644
 +        bool HandleReloadGameobjectTemplateCommand(char* args);
 +        bool HandleReloadItemTemplateCommand(char* args);
 +        bool HandleReloadCreatureTemplateCommand(char* args);
++        bool HandleReloadBattlegroundTemplateCommand(char* args);
 +        // DEV END
  
          bool HandleResetAchievementsCommand(char* args);
@@ -48,8 +50,16 @@ index d953efe..e27510b 100644
 @@ -1060,6 +1060,32 @@ bool ChatHandler::HandleLoadScriptsCommand(char* args)
      return true;
  }
- 
+
 +// DEV -- These functions should only be used in development mode - not on a production server
++bool ChatHandler::HandleReloadBattlegroundTemplateCommand( char*)
++{
++    sLog.outString( "WARNING: Reloading battleground_template" );
++    sObjectMgr.CreateInitialBattleGrounds();
++    SendGlobalSysMessage("WARNING: DB table `battleground_template` reloaded.");
++    return true;
++}
++
 +bool ChatHandler::HandleReloadGameobjectTemplateCommand( char*)
 +{
 +    sLog.outString( "WARNING: Reloading gameobject_template" );
